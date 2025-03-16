@@ -33,7 +33,7 @@ export class InternalActivityStorage {
     this.previousActivity = this.activity;
     this.lastActivityUpdateTimestamp = Date.now();
     this.lastActivityUpdateDate = new Date();
-    
+
     this.activity = activity;
   }
 
