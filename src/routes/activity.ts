@@ -1,17 +1,32 @@
 import { postActivityValidator } from "@/middlewares/validation/activity";
 import { Hono } from "hono";
+import { bearerAuth } from "@/middlewares/authorization";
+import { InternalActivityStorage } from "@/storage/activity";
 
-const activityRoutes = new Hono();
+const activityRoutes = new Hono<{ Bindings: Env }>();
 
 activityRoutes.get("/", (c) => {
-  return c.text("Hello Activity!");
+  const activity = InternalActivityStorage.getInstance().getActivity();
+
+  if (!activity) {
+    return c.notFound();
+  }
+
+  return c.json(activity);
 });
 
-activityRoutes.post("/", postActivityValidator, (c) => {
+activityRoutes.post("/", bearerAuth, postActivityValidator, (c) => {
   const activityData = c.req.valid("json");
-  console.log(activityData);
 
-  return c.json(activityData);
+  InternalActivityStorage.getInstance().setActivity(activityData);
+
+  return c.json(activityData, 201);
+});
+
+activityRoutes.get("/metadata", (c) => {
+  const metadata = InternalActivityStorage.getInstance().getMetadata();
+
+  return c.json(metadata);
 });
 
 export default activityRoutes;
