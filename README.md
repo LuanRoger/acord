@@ -1,8 +1,3 @@
-```
-npm install
-npm run dev
-```
+# ACORD
 
-```
-open http://localhost:3000
-```
+API to receive and store Discord RPC activity data.
