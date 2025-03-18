@@ -7,6 +7,7 @@ export interface Activity {
   smallImageKey?: string;
   largeImageText?: string;
   smallImageText?: string;
+  dominantColor?: string;
 }
 
 export interface ActivityMetadata {

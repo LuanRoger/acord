@@ -15,10 +15,10 @@ activityRoutes.get("/", (c) => {
   return c.json(activity);
 });
 
-activityRoutes.post("/", bearerAuth, postActivityValidator, (c) => {
+activityRoutes.post("/", bearerAuth, postActivityValidator, async (c) => {
   const activityData = c.req.valid("json");
 
-  InternalActivityStorage.getInstance().setActivity(activityData);
+  await InternalActivityStorage.getInstance().setActivity(activityData);
 
   return c.json(activityData, 201);
 });

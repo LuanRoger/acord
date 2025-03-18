@@ -1,4 +1,5 @@
 import type { Activity, ActivityMetadata } from "@/types/activity";
+import { getAverageColor } from "fast-average-color-node";
 
 export class InternalActivityStorage {
   private static instance: InternalActivityStorage;
@@ -29,12 +30,19 @@ export class InternalActivityStorage {
     return this.activity;
   }
 
-  setActivity(activity: Activity): void {
+  async setActivity(activity: Activity) {
     this.previousActivity = this.activity;
     this.lastActivityUpdateTimestamp = Date.now();
     this.lastActivityUpdateDate = new Date();
 
-    this.activity = activity;
+    const dominantColor = activity.smallImageKey
+      ? await getAverageColor(activity.smallImageKey)
+      : undefined;
+
+    this.activity = {
+      ...activity,
+      dominantColor: dominantColor?.hex,
+    };
   }
 
   getMetadata(): ActivityMetadata {
