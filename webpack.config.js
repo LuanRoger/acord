@@ -12,6 +12,9 @@ module.exports = {
       },
     ],
   },
+  externals: {
+    sharp: "commonjs sharp",
+  },
   resolve: {
     extensions: [".js", ".ts", ".json"],
     modules: ["node_modules"],
