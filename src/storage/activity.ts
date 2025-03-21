@@ -43,6 +43,8 @@ export class InternalActivityStorage {
       ...activity,
       dominantColor: dominantColor?.hex,
     };
+
+    return this.activity;
   }
 
   getMetadata(): ActivityMetadata {
@@ -52,5 +54,13 @@ export class InternalActivityStorage {
       lastActivityUpdateDate: this.lastActivityUpdateDate,
       lastAccessActivityDate: this.lastAccessActivityDate,
     };
+  }
+
+  clearActivity() {
+    this.activity = undefined;
+    this.previousActivity = undefined;
+    this.lastActivityUpdateTimestamp = undefined;
+    this.lastActivityUpdateDate = undefined;
+    this.lastAccessActivityDate = undefined;
   }
 }

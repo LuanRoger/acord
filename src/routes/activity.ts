@@ -18,9 +18,16 @@ activityRoutes.get("/", (c) => {
 activityRoutes.post("/", bearerAuth, postActivityValidator, async (c) => {
   const activityData = c.req.valid("json");
 
-  await InternalActivityStorage.getInstance().setActivity(activityData);
+  const newActivityStatus =
+    await InternalActivityStorage.getInstance().setActivity(activityData);
 
-  return c.json(activityData, 201);
+  return c.json(newActivityStatus, 201);
+});
+
+activityRoutes.delete("/", bearerAuth, (c) => {
+  InternalActivityStorage.getInstance().clearActivity();
+
+  return c.body(null, 204);
 });
 
 activityRoutes.get("/metadata", (c) => {
