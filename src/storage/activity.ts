@@ -35,8 +35,8 @@ export class InternalActivityStorage {
     this.lastActivityUpdateTimestamp = Date.now();
     this.lastActivityUpdateDate = new Date();
 
-    const dominantColor = activity.smallImageKey
-      ? await getAverageColor(activity.smallImageKey)
+    const dominantColor = activity.largeImageKey
+      ? await getAverageColor(activity.largeImageKey)
       : undefined;
 
     this.activity = {
