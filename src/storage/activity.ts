@@ -35,14 +35,16 @@ export class InternalActivityStorage {
     this.lastActivityUpdateTimestamp = Date.now();
     this.lastActivityUpdateDate = new Date();
 
-    const dominantColor = activity.smallImageKey
-      ? await getAverageColor(activity.smallImageKey)
+    const dominantColor = activity.largeImageKey
+      ? await getAverageColor(activity.largeImageKey)
       : undefined;
 
     this.activity = {
       ...activity,
       dominantColor: dominantColor?.hex,
     };
+
+    return this.activity;
   }
 
   getMetadata(): ActivityMetadata {
@@ -52,5 +54,13 @@ export class InternalActivityStorage {
       lastActivityUpdateDate: this.lastActivityUpdateDate,
       lastAccessActivityDate: this.lastAccessActivityDate,
     };
+  }
+
+  clearActivity() {
+    this.activity = undefined;
+    this.previousActivity = undefined;
+    this.lastActivityUpdateTimestamp = undefined;
+    this.lastActivityUpdateDate = undefined;
+    this.lastAccessActivityDate = undefined;
   }
 }
