@@ -12,20 +12,20 @@
     "@hono/node-server": "^1.13.8",
     "@hono/zod-validator": "^0.4.3",
     "fast-average-color-node": "^3.1.0",
-    "hono": "^4.7.4",
+    "hono": "^4.7.5",
     "sharp": "^0.33.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
-    "@types/node": "^22.13.10",
-    "eslint": "^9.22.0",
+    "@eslint/js": "^9.23.0",
+    "@types/node": "^22.13.11",
+    "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "globals": "^16.0.0",
     "prettier": "^3.5.3",
     "ts-loader": "^9.5.2",
     "tsx": "^4.7.1",
-    "typescript-eslint": "^8.26.1",
+    "typescript-eslint": "^8.27.0",
     "webpack": "^5.98.0",
     "webpack-cli": "^6.0.1"
   }
