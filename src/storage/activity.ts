@@ -1,3 +1,4 @@
+import { CronExecutor } from "@/cron/cleaner";
 import type { Activity, ActivityMetadata } from "@/types/activity";
 import { getAverageColor } from "fast-average-color-node";
 
@@ -8,20 +9,27 @@ export class InternalActivityStorage {
   private lastActivityUpdateTimestamp: number | undefined;
   private lastActivityUpdateDate: Date | undefined;
   private lastAccessActivityDate: Date | undefined;
+  private cronJobExecutor?: CronExecutor;
 
   static getInstance(): InternalActivityStorage {
     if (!InternalActivityStorage.instance) {
-      InternalActivityStorage.instance = new InternalActivityStorage();
+      InternalActivityStorage.instance = new InternalActivityStorage(true);
     }
 
     return InternalActivityStorage.instance;
   }
 
-  private constructor() {
+  private constructor(autoCleanup: boolean = false) {
     this.activity = undefined;
     this.previousActivity = undefined;
     this.lastActivityUpdateTimestamp = undefined;
     this.lastActivityUpdateDate = undefined;
+    this.lastAccessActivityDate = undefined;
+
+    if (autoCleanup) {
+      this.cronJobExecutor = new CronExecutor(() => this.clearActivity());
+      this.cronJobExecutor.startPeriodicExecution();
+    }
   }
 
   getActivity(): Activity | undefined {
@@ -38,11 +46,14 @@ export class InternalActivityStorage {
     const dominantColor = activity.largeImageKey
       ? await getAverageColor(activity.largeImageKey)
       : undefined;
-
     this.activity = {
       ...activity,
       dominantColor: dominantColor?.hex,
     };
+
+    if (this.cronJobExecutor) {
+      this.cronJobExecutor.startPeriodicExecution();
+    }
 
     return this.activity;
   }
